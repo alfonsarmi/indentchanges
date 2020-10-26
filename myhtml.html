@@ -1,0 +1,75 @@
+<div class="bars-panel" [ngClass]="{ 'bars-panel--translucid': translucid }" [class.disabled]="disabled">
+
+
+
+
+  <div class="d-flex">
+    <div class="flex-grow-1 bars-panel__col">
+      <div *ngFor="let subtitle of [subtitle]" class="bars-panel__subtitle">
+        {{ subtitle }}
+      </div>
+      <div *ngFor="let title of [title]" class="bars-panel__title">
+        {{ title }}
+      </div>
+      <div *ngFor="let label of [label]" class="bars-panel__label">
+        {{ label }}
+      </div>
+    </div>
+    <div class="flex-grow-1 bars-panel__col bars-panel__col--right">
+      <gla-toggle-buttons (onSelected)="buttonSelected($event)">
+        <gla-toggle-buttons-item
+          *ngFor="let button of headerButtons"
+          [text]="button.name"
+          [icon]="button.icon"
+          [selected]="selectedButton == button.name"
+        ></gla-toggle-buttons-item>
+      </gla-toggle-buttons>
+    </div>
+  </div>
+  <div class="bars-panel__item-list">
+    <gla-bars-panel-item
+      *ngFor="let item of displayedItems; index as i"
+      [text]="item.name"
+      [icon]="item.icon"
+      [values]="item.values"
+      [totalValue]="totalValue"
+      [clickable]="clickable"
+      [secondaryValue]="secondaryValue"
+      (click)="selectItem(item.name, i)"
+      (onMouseEnterOutput)="onMouseEnterOutput($event)"
+      (onMouseLeaveOutput)="onMouseLeaveOutput($event)"
+    ></gla-bars-panel-item>
+  </div>
+  <div class="bars-panel__paginator row" *ngIf="totalPages > 1">
+    <div class="col d-flex">
+      <div
+        class="bars-panel__paginator-button"
+        (click)="previousPage()"
+        (mousedown)="preventTextSelection($event)"
+      >
+        <svg-icon
+          class="bars-panel__paginator-icon bars-panel__paginator-icon--small"
+          [applyCss]="true"
+          name="arrow-left-1"
+        ></svg-icon>
+      </div>
+      <div
+        class="bars-panel__paginator-button"
+        (click)="nextPage()"
+        (mousedown)="preventTextSelection($event)"
+      >
+        <svg-icon
+          class="bars-panel__paginator-icon bars-panel__paginator-icon--small"
+          [applyCss]="true"
+          name="arrow-right-1"
+        ></svg-icon>
+      </div>
+    </div>
+    <div class="col"></div>
+    <div class="col">
+      <div class="bars-panel__paginator-nav-text">
+        {{ currentPage }} of {{ totalPages }}
+      </div>
+    </div>
+  </div>
+</div>
